@@ -1,0 +1,1 @@
+# Database models will be registered here as the application grows.

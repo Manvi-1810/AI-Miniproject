@@ -1,0 +1,25 @@
+# Environment secrets
+.env
+.env.*
+!.env.example
+
+# Python
+__pycache__/
+*.py[cod]
+.pytest_cache/
+.venv/
+venv/
+
+# Node
+node_modules/
+dist/
+
+# Uploaded resumes and generated files
+backend/uploads/*
+!backend/uploads/.gitkeep
+
+# Editor and operating system
+.vscode/
+.idea/
+.DS_Store
+Thumbs.db
