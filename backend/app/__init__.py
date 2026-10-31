@@ -1,10 +1,11 @@
 from flask import Flask, jsonify
-from flask_cors import CORS
 from werkzeug.exceptions import HTTPException
 
 from app.config import Config
 from app.extensions import cors, db, jwt
 from app.routes import api_bp
+from app.routes.auth import auth_bp
+from app import models
 
 
 def create_app(config_class=Config):
@@ -14,7 +15,6 @@ def create_app(config_class=Config):
     db.init_app(app)
     jwt.init_app(app)
 
-    # Allow requests from the local Vite development server.
     cors.init_app(
         app,
         resources={
@@ -25,6 +25,7 @@ def create_app(config_class=Config):
     )
 
     app.register_blueprint(api_bp, url_prefix="/api")
+    app.register_blueprint(auth_bp, url_prefix="/api/auth")
 
     @app.errorhandler(HTTPException)
     def handle_http_error(error):

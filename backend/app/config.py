@@ -15,9 +15,8 @@ class Config:
     )
 
     SQLALCHEMY_DATABASE_URI = os.getenv(
-        "DATABASE_URL",
-        "mysql+pymysql://root:password@localhost:3306/recruitment_db",
-    )
-
+    "DATABASE_URL",
+    "mysql+pymysql://root:password@127.0.0.1:3306/talentlens_db",
+)
     SQLALCHEMY_TRACK_MODIFICATIONS = False
     MAX_CONTENT_LENGTH = 5 * 1024 * 1024
