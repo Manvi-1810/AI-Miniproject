@@ -87,7 +87,7 @@ export default function LoginPage() {
 
       {/* Back to home */}
       <Link to="/" className="auth-back">
-        <ArrowLeft size={16} />
+        
         Back home
       </Link>
 

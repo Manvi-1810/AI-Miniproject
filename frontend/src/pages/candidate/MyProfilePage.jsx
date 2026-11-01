@@ -1,7 +1,5 @@
 import { useEffect, useRef, useState } from "react";
-import { useNavigate } from "react-router-dom";
 import {
-  ArrowLeft,
   UserRound,
   Mail,
   ShieldCheck,
@@ -13,7 +11,6 @@ import {
 import api from "../../services/api";
 
 export default function MyProfilePage() {
-  const navigate = useNavigate();
   const fileInputRef = useRef(null);
 
   const [profile, setProfile] = useState(null);
@@ -80,19 +77,15 @@ export default function MyProfilePage() {
     <main className="profile-page">
       <div className="profile-container">
 
-        <button
-          className="profile-back-button"
-          onClick={() => navigate("/candidate/dashboard")}
-        >
-          <ArrowLeft size={18} />
-          Back to Dashboard
-        </button>
-
         <header className="profile-header">
           <div>
-            <span className="profile-eyebrow">CANDIDATE ACCOUNT</span>
+            <span className="profile-eyebrow">
+              CANDIDATE ACCOUNT
+            </span>
             <h1>My Profile</h1>
-            <p>Manage your personal information and account details.</p>
+            <p>
+              Manage your personal information and account details.
+            </p>
           </div>
 
           <button
@@ -106,16 +99,23 @@ export default function MyProfilePage() {
         </header>
 
         {loading ? (
-          <div className="profile-message">Loading profile...</div>
+          <div className="profile-message">
+            Loading profile...
+          </div>
         ) : error && !profile ? (
-          <div className="profile-message profile-error">{error}</div>
+          <div className="profile-message profile-error">
+            {error}
+          </div>
         ) : (
           <>
             <section className="profile-identity-card">
               <div className="profile-photo-section">
                 <div className="profile-photo">
                   {photo ? (
-                    <img src={photo} alt="Candidate profile" />
+                    <img
+                      src={photo}
+                      alt="Candidate profile"
+                    />
                   ) : (
                     <UserRound size={52} />
                   )}
@@ -124,7 +124,9 @@ export default function MyProfilePage() {
                 <div className="profile-photo-actions">
                   <button
                     className="profile-upload-button"
-                    onClick={() => fileInputRef.current?.click()}
+                    onClick={() =>
+                      fileInputRef.current?.click()
+                    }
                   >
                     <Camera size={16} />
                     {photo ? "Change Photo" : "Upload Photo"}
@@ -161,7 +163,9 @@ export default function MyProfilePage() {
 
                 <h2>{profile?.name || "Candidate"}</h2>
 
-                <p>{profile?.email || "No email available"}</p>
+                <p>
+                  {profile?.email || "No email available"}
+                </p>
 
                 <span className="profile-role">
                   <ShieldCheck size={16} />
@@ -171,7 +175,9 @@ export default function MyProfilePage() {
             </section>
 
             {error && (
-              <div className="profile-message profile-error">{error}</div>
+              <div className="profile-message profile-error">
+                {error}
+              </div>
             )}
 
             <section className="profile-details-card">
@@ -186,7 +192,9 @@ export default function MyProfilePage() {
                     <UserRound size={17} />
                     Full Name
                   </div>
-                  <strong>{profile?.name || "Not provided"}</strong>
+                  <strong>
+                    {profile?.name || "Not provided"}
+                  </strong>
                 </div>
 
                 <div className="profile-detail">
@@ -194,7 +202,9 @@ export default function MyProfilePage() {
                     <Mail size={17} />
                     Email Address
                   </div>
-                  <strong>{profile?.email || "Not provided"}</strong>
+                  <strong>
+                    {profile?.email || "Not provided"}
+                  </strong>
                 </div>
 
                 <div className="profile-detail">
@@ -202,7 +212,9 @@ export default function MyProfilePage() {
                     <ShieldCheck size={17} />
                     Account Role
                   </div>
-                  <strong>{profile?.role || "Candidate"}</strong>
+                  <strong>
+                    {profile?.role || "Candidate"}
+                  </strong>
                 </div>
 
                 <div className="profile-detail">
@@ -212,14 +224,13 @@ export default function MyProfilePage() {
                   </div>
                   <strong>
                     {profile?.created_at
-                      ? new Date(profile.created_at).toLocaleDateString(
-                          "en-IN",
-                          {
-                            day: "numeric",
-                            month: "long",
-                            year: "numeric",
-                          }
-                        )
+                      ? new Date(
+                          profile.created_at
+                        ).toLocaleDateString("en-IN", {
+                          day: "numeric",
+                          month: "long",
+                          year: "numeric",
+                        })
                       : "Not available"}
                   </strong>
                 </div>

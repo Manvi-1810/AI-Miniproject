@@ -3,6 +3,7 @@ from flask_jwt_extended import jwt_required, get_jwt_identity
 
 from app.extensions import db
 from app.models import User, Job, Application
+from app.models.notification import Notification
 
 from app.services.skill_gap.recommendation_service import (
     generate_skill_recommendations
@@ -46,7 +47,6 @@ def get_my_applications():
 
         missing_skills = application.missing_skills or []
 
-        # Generate recommendations for missing skills
         recommendations = []
 
         if (
@@ -123,10 +123,28 @@ def apply_for_job():
     )
 
     db.session.add(application)
+
+    # Create notification for the candidate
+    notification = Notification(
+        user_id=user.id,
+        title="Application submitted",
+        message=(
+            f"Your application for {job.title} at "
+            f"{job.company_name} has been submitted successfully."
+        ),
+        notification_type="application",
+        is_read=False,
+        link="/candidate/applications"
+    )
+
+    db.session.add(notification)
+
+    # Save application and notification together
     db.session.commit()
 
     return jsonify({
         "status": "success",
         "message": "Application submitted successfully",
-        "application": application.to_dict()
+        "application": application.to_dict(),
+        "notification": notification.to_dict()
     }), 201

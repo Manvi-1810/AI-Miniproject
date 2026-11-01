@@ -1,7 +1,6 @@
+
 import { useState } from "react";
 import {
-  ArrowLeft,
-  BrainCircuit,
   UserRound,
   Bell,
   ShieldCheck,
@@ -84,12 +83,16 @@ export default function CandidateSettingsPage() {
     }
 
     if (newPassword.length < 8) {
-      setPasswordError("New password must contain at least 8 characters.");
+      setPasswordError(
+        "New password must contain at least 8 characters."
+      );
       return;
     }
 
     if (newPassword !== confirmPassword) {
-      setPasswordError("New password and confirmation do not match.");
+      setPasswordError(
+        "New password and confirmation do not match."
+      );
       return;
     }
 
@@ -120,32 +123,12 @@ export default function CandidateSettingsPage() {
   }
 
   return (
-    <div className="candidate-settings-page">
-      <header className="settings-header">
-        <button
-          className="settings-back-button"
-          onClick={() => navigate("/candidate/dashboard")}
-        >
-          <ArrowLeft size={17} />
-          Dashboard
-        </button>
-
-        <div className="settings-brand">
-          <span><BrainCircuit size={22} /></span>
-          <div>
-            <strong>TalentLens</strong>
-            <small>Recruitment Intelligence</small>
-          </div>
-        </div>
-
-        <span className="settings-workspace-label">
-          Candidate Workspace
-        </span>
-      </header>
-
-      <main className="settings-content">
+    <main className="candidate-settings-page">
+      <div className="settings-content">
         <div className="settings-page-heading">
-          <span className="settings-eyebrow">ACCOUNT PREFERENCES</span>
+          <span className="settings-eyebrow">
+            CANDIDATE WORKSPACE
+          </span>
           <h1>Settings</h1>
           <p>Manage your account preferences and security.</p>
         </div>
@@ -208,7 +191,9 @@ export default function CandidateSettingsPage() {
           <div className="settings-option">
             <div>
               <strong>Application Updates</strong>
-              <p>Receive notifications about your application status.</p>
+              <p>
+                Receive notifications about your application status.
+              </p>
             </div>
 
             <label className="settings-switch">
@@ -286,6 +271,7 @@ export default function CandidateSettingsPage() {
                 <label htmlFor="current-password">
                   Current Password
                 </label>
+
                 <div className="settings-password-input">
                   <input
                     id="current-password"
@@ -297,12 +283,17 @@ export default function CandidateSettingsPage() {
                     placeholder="Enter current password"
                     autoComplete="current-password"
                   />
+
                   <button
                     type="button"
                     onClick={() => setShowCurrent(!showCurrent)}
                     aria-label="Toggle current password visibility"
                   >
-                    {showCurrent ? <EyeOff size={18} /> : <Eye size={18} />}
+                    {showCurrent ? (
+                      <EyeOff size={18} />
+                    ) : (
+                      <Eye size={18} />
+                    )}
                   </button>
                 </div>
               </div>
@@ -311,6 +302,7 @@ export default function CandidateSettingsPage() {
                 <label htmlFor="new-password">
                   New Password
                 </label>
+
                 <div className="settings-password-input">
                   <input
                     id="new-password"
@@ -322,12 +314,17 @@ export default function CandidateSettingsPage() {
                     placeholder="Enter new password"
                     autoComplete="new-password"
                   />
+
                   <button
                     type="button"
                     onClick={() => setShowNew(!showNew)}
                     aria-label="Toggle new password visibility"
                   >
-                    {showNew ? <EyeOff size={18} /> : <Eye size={18} />}
+                    {showNew ? (
+                      <EyeOff size={18} />
+                    ) : (
+                      <Eye size={18} />
+                    )}
                   </button>
                 </div>
               </div>
@@ -336,6 +333,7 @@ export default function CandidateSettingsPage() {
                 <label htmlFor="confirm-password">
                   Confirm New Password
                 </label>
+
                 <div className="settings-password-input">
                   <input
                     id="confirm-password"
@@ -347,12 +345,17 @@ export default function CandidateSettingsPage() {
                     placeholder="Re-enter new password"
                     autoComplete="new-password"
                   />
+
                   <button
                     type="button"
                     onClick={() => setShowConfirm(!showConfirm)}
                     aria-label="Toggle confirm password visibility"
                   >
-                    {showConfirm ? <EyeOff size={18} /> : <Eye size={18} />}
+                    {showConfirm ? (
+                      <EyeOff size={18} />
+                    ) : (
+                      <Eye size={18} />
+                    )}
                   </button>
                 </div>
               </div>
@@ -381,7 +384,9 @@ export default function CandidateSettingsPage() {
                 disabled={passwordLoading}
               >
                 <LockKeyhole size={16} />
-                {passwordLoading ? "Updating..." : "Save New Password"}
+                {passwordLoading
+                  ? "Updating..."
+                  : "Save New Password"}
               </button>
             </form>
           )}
@@ -399,7 +404,9 @@ export default function CandidateSettingsPage() {
             <ShieldCheck size={19} />
             <div>
               <h2>Account Session</h2>
-              <p>Sign out when you have finished using TalentLens.</p>
+              <p>
+                Sign out when you have finished using TalentLens.
+              </p>
             </div>
           </div>
 
@@ -415,7 +422,7 @@ export default function CandidateSettingsPage() {
         <footer className="settings-footer">
           TalentLens · IS026 Mini Project
         </footer>
-      </main>
-    </div>
+      </div>
+    </main>
   );
 }

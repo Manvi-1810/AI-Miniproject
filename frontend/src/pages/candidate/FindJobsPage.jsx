@@ -1,3 +1,4 @@
+
 import { useEffect, useState } from "react";
 import {
   Search,
@@ -6,7 +7,6 @@ import {
   Clock3,
   GraduationCap,
   BrainCircuit,
-  ArrowLeft,
   X,
   RefreshCw,
   Building2,
@@ -14,12 +14,9 @@ import {
   CheckCircle2,
   AlertCircle,
 } from "lucide-react";
-import { useNavigate } from "react-router-dom";
 import api from "../../services/api";
 
 export default function FindJobsPage() {
-  const navigate = useNavigate();
-
   const [jobs, setJobs] = useState([]);
   const [search, setSearch] = useState("");
   const [location, setLocation] = useState("");
@@ -47,7 +44,7 @@ export default function FindJobsPage() {
     } catch (err) {
       setError(
         err.response?.data?.message ||
-        "Unable to load jobs. Please check whether the backend server is running."
+          "Unable to load jobs. Please check whether the backend server is running."
       );
     } finally {
       setLoading(false);
@@ -117,7 +114,7 @@ export default function FindJobsPage() {
       } else {
         setApplicationError(
           err.response?.data?.message ||
-          "Unable to submit your application. Please try again."
+            "Unable to submit your application. Please try again."
         );
       }
     } finally {
@@ -132,31 +129,7 @@ export default function FindJobsPage() {
   }
 
   return (
-    <div className="find-jobs-page">
-      <header className="jobs-page-header">
-        <button
-          className="jobs-back-button"
-          onClick={() => navigate("/candidate/dashboard")}
-        >
-          <ArrowLeft size={18} />
-          Dashboard
-        </button>
-
-        <div className="jobs-header-brand">
-          <span className="jobs-brand-icon">
-            <BrainCircuit size={23} />
-          </span>
-          <div>
-            <strong>TalentLens</strong>
-            <small>Recruitment Intelligence</small>
-          </div>
-        </div>
-
-        <div className="jobs-header-label">
-          Candidate Workspace
-        </div>
-      </header>
-
+    <div className="find-jobs-page shared-jobs-page">
       <main className="jobs-page-content">
         <section className="jobs-hero">
           <span className="jobs-eyebrow">
@@ -207,7 +180,9 @@ export default function FindJobsPage() {
               <span className="jobs-section-kicker">
                 OPPORTUNITIES
               </span>
+
               <h2>Available jobs</h2>
+
               <p>
                 {loading
                   ? "Loading available opportunities..."
@@ -237,6 +212,7 @@ export default function FindJobsPage() {
             <div className="jobs-state-card jobs-error-card">
               <h3>Unable to load jobs</h3>
               <p>{error}</p>
+
               <button
                 className="jobs-search-button"
                 onClick={() => fetchJobs()}
@@ -250,10 +226,12 @@ export default function FindJobsPage() {
             <div className="jobs-state-card">
               <BriefcaseBusiness size={35} />
               <h3>No jobs found</h3>
+
               <p>
                 There are no matching active jobs right now.
                 Try changing your search or location.
               </p>
+
               <button
                 className="jobs-search-button"
                 onClick={clearFilters}
@@ -308,11 +286,13 @@ export default function FindJobsPage() {
                     {(Array.isArray(job.required_skills)
                       ? job.required_skills
                       : []
-                    ).slice(0, 5).map((skill, index) => (
-                      <span key={`${job.id}-${index}`}>
-                        {skill}
-                      </span>
-                    ))}
+                    )
+                      .slice(0, 5)
+                      .map((skill, index) => (
+                        <span key={`${job.id}-${index}`}>
+                          {skill}
+                        </span>
+                      ))}
                   </div>
 
                   <div className="job-card-footer">
@@ -368,7 +348,9 @@ export default function FindJobsPage() {
               JOB DETAILS
             </span>
 
-            <h2 id="job-modal-title">{selectedJob.title}</h2>
+            <h2 id="job-modal-title">
+              {selectedJob.title}
+            </h2>
 
             <p className="job-company-name">
               {selectedJob.company_name}
@@ -394,6 +376,7 @@ export default function FindJobsPage() {
             <div className="job-modal-divider" />
 
             <h3>Job description</h3>
+
             <p className="job-modal-description">
               {selectedJob.description}
             </p>
@@ -425,6 +408,7 @@ export default function FindJobsPage() {
               {applicationMessage ? (
                 <div className="job-application-success">
                   <CheckCircle2 size={22} />
+
                   <div>
                     <strong>Application submitted!</strong>
                     <p>{applicationMessage}</p>
@@ -438,6 +422,7 @@ export default function FindJobsPage() {
               ) : (
                 <div className="job-apply-notice">
                   <SlidersHorizontal size={19} />
+
                   <p>
                     Review the job requirements before submitting
                     your application.
@@ -453,7 +438,10 @@ export default function FindJobsPage() {
               >
                 {applying ? (
                   <>
-                    <RefreshCw size={17} className="jobs-loading-icon" />
+                    <RefreshCw
+                      size={17}
+                      className="jobs-loading-icon"
+                    />
                     Submitting...
                   </>
                 ) : applicationMessage ? (

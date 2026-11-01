@@ -4,6 +4,7 @@ from app.routes.job_routes import jobs_bp
 from app.routes.application_routes import applications_bp
 from app.routes.resume_routes import resumes_bp
 from app.routes.matching_routes import matching_bp
+from app.routes.notification_routes import notifications_bp
 
 api_bp = Blueprint("api", __name__)
 
@@ -28,3 +29,4 @@ api_bp.register_blueprint(
     url_prefix="/resumes"
 )
 api_bp.register_blueprint(matching_bp, url_prefix="/matching")
+api_bp.register_blueprint(notifications_bp)

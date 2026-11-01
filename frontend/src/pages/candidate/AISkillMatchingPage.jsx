@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import {
-  ArrowLeft,
+  
   BrainCircuit,
   Target,
   CheckCircle2,
@@ -163,13 +163,7 @@ export default function AISkillMatchingPage() {
 
         {/* Navigation */}
 
-        <button
-          className="jobs-back-button"
-          onClick={() => navigate("/candidate/dashboard")}
-        >
-          <ArrowLeft size={17} />
-          Back to Dashboard
-        </button>
+       
 
         {/* Page heading */}
 

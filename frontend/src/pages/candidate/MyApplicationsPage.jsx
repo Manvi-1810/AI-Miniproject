@@ -1,7 +1,6 @@
 
 import { useEffect, useState } from "react";
 import {
-  ArrowLeft,
   BrainCircuit,
   BriefcaseBusiness,
   MapPin,
@@ -112,32 +111,7 @@ export default function MyApplicationsPage() {
   ).length;
 
   return (
-    <div className="my-applications-page">
-      <header className="jobs-page-header">
-        <button
-          className="jobs-back-button"
-          onClick={() => navigate("/candidate/dashboard")}
-        >
-          <ArrowLeft size={18} />
-          Dashboard
-        </button>
-
-        <div className="jobs-header-brand">
-          <span className="jobs-brand-icon">
-            <BrainCircuit size={23} />
-          </span>
-
-          <div>
-            <strong>TalentLens</strong>
-            <small>Recruitment Intelligence</small>
-          </div>
-        </div>
-
-        <div className="jobs-header-label">
-          Candidate Workspace
-        </div>
-      </header>
-
+    <div className="my-applications-page shared-applications-page">
       <main className="applications-content">
         <section className="applications-hero">
           <span className="jobs-eyebrow">
@@ -280,8 +254,6 @@ export default function MyApplicationsPage() {
           {!loading && !error && applications.length > 0 && (
             <div className="applications-list">
               {applications.map((application) => {
-                // All application-specific variables stay
-                // inside this map callback.
                 const job = application.job;
 
                 const status = (

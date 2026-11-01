@@ -1,3 +1,4 @@
+
 import { useEffect, useState } from "react";
 import {
   FileText,
@@ -8,19 +9,17 @@ import {
   RefreshCw,
   FileCheck2,
   Clock3,
-  ArrowLeft,
   FileUp,
+  Trash2,
 } from "lucide-react";
-import { useNavigate } from "react-router-dom";
 import api from "../../services/api";
 
 export default function MyResumePage() {
-  const navigate = useNavigate();
-
   const [resumes, setResumes] = useState([]);
   const [selectedFile, setSelectedFile] = useState(null);
   const [loading, setLoading] = useState(true);
   const [uploading, setUploading] = useState(false);
+  const [deletingId, setDeletingId] = useState(null);
   const [error, setError] = useState("");
   const [success, setSuccess] = useState("");
 
@@ -30,12 +29,11 @@ export default function MyResumePage() {
       setError("");
 
       const response = await api.get("/resumes/my");
-
       setResumes(response.data.resumes || []);
     } catch (err) {
       setError(
         err.response?.data?.message ||
-        "Unable to load your resumes. Please try again."
+          "Unable to load your resumes. Please try again."
       );
     } finally {
       setLoading(false);
@@ -104,7 +102,7 @@ export default function MyResumePage() {
 
       setSuccess(
         response.data.message ||
-        "Resume uploaded and analyzed successfully."
+          "Resume uploaded and analyzed successfully."
       );
 
       setSelectedFile(null);
@@ -116,10 +114,33 @@ export default function MyResumePage() {
     } catch (err) {
       setError(
         err.response?.data?.message ||
-        "Resume upload failed. Please try again."
+          "Resume upload failed. Please try again."
       );
     } finally {
       setUploading(false);
+    }
+  }
+
+  async function handleDelete(resume) {
+    try {
+      setDeletingId(resume.id);
+      setError("");
+      setSuccess("");
+
+      await api.delete(`/resumes/${resume.id}`);
+
+      setResumes((previousResumes) =>
+        previousResumes.filter((item) => item.id !== resume.id)
+      );
+
+      setSuccess("Resume permanently deleted successfully!");
+    } catch (err) {
+      setError(
+        err.response?.data?.message ||
+          "Unable to delete this resume. Please try again."
+      );
+    } finally {
+      setDeletingId(null);
     }
   }
 
@@ -148,25 +169,7 @@ export default function MyResumePage() {
   }
 
   return (
-    <div className="my-resume-page">
-      <header className="resume-page-header">
-        <button
-          className="resume-back-button"
-          onClick={() => navigate("/candidate/dashboard")}
-        >
-          <ArrowLeft size={18} />
-          Dashboard
-        </button>
-
-        <div className="resume-brand">
-          <BrainCircuit size={23} />
-          <div>
-            <strong>TalentLens</strong>
-            <small>Recruitment Intelligence</small>
-          </div>
-        </div>
-      </header>
-
+    <div className="my-resume-page shared-resume-page">
       <main className="resume-page-content">
         <section className="resume-page-hero">
           <span className="resume-eyebrow">
@@ -227,6 +230,7 @@ export default function MyResumePage() {
               <div className="resume-selected-file">
                 <FileCheck2 size={19} />
                 <span>{selectedFile.name}</span>
+
                 <button
                   type="button"
                   onClick={() => {
@@ -364,6 +368,25 @@ export default function MyResumePage() {
                     <CheckCircle2 size={16} />
                     Resume analyzed successfully
                   </div>
+
+                  <button
+                    type="button"
+                    className="resume-delete-button"
+                    onClick={() => handleDelete(resume)}
+                    disabled={deletingId === resume.id}
+                  >
+                    {deletingId === resume.id ? (
+                      <>
+                        <RefreshCw className="resume-spin" size={16} />
+                        Deleting...
+                      </>
+                    ) : (
+                      <>
+                        <Trash2 size={16} />
+                        Delete Resume
+                      </>
+                    )}
+                  </button>
                 </article>
               ))}
             </div>

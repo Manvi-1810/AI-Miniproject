@@ -17,7 +17,7 @@ export default function LandingPage() {
           <a href="#features">Features</a>
           <Link to="/login" className="nav-login">Login</Link>
           <Link to="/register" className="button button-primary">
-            Get Started <ArrowRight size={16} />
+            Get Started
           </Link>
         </nav>
       </header>
@@ -33,7 +33,7 @@ export default function LandingPage() {
           </p>
           <div className="hero-buttons">
             <Link to="/register" className="button button-primary">
-              Get Started <ArrowRight size={18} />
+              Get Started
             </Link>
             <Link to="/login" className="button button-secondary">
               Login to your account

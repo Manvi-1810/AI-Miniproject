@@ -124,7 +124,7 @@ try {
 return (
 <main className="auth-page">
 <Link to="/" className="auth-back">
-← Back home
+ Back home
 </Link>
 
   <section className="auth-card">

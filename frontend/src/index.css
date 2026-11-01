@@ -5634,21 +5634,232 @@ p {
   }
 }
 
-.application-email-confirmation {
-  display: flex;
-  align-items: flex-start;
-  gap: 10px;
-  margin-top: 20px;
-  padding: 14px 16px;
-  border: 1px solid #b7e4ca;
+
+.resume-delete-button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  width: 100%;
+  margin-top: 16px;
+  padding: 10px 14px;
+  border: 1px solid #fecaca;
   border-radius: 8px;
-  background: #f0faf4;
-  color: #187044;
+  background: #fff;
+  color: #dc2626;
   font-size: 13px;
-  line-height: 1.6;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background 0.2s ease, border-color 0.2s ease;
 }
 
-.application-email-confirmation svg {
-  flex-shrink: 0;
-  margin-top: 1px;
+.resume-delete-button:hover:not(:disabled) {
+  background: #fef2f2;
+  border-color: #f87171;
+}
+
+.resume-delete-button:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+.notification-button {
+  position: relative;
+}
+
+.notification-count {
+  position: absolute;
+  top: -5px;
+  right: -5px;
+  min-width: 17px;
+  height: 17px;
+  padding: 0 4px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 20px;
+  background: #e5484d;
+  color: #fff;
+  font-size: 10px;
+  font-weight: 700;
+}
+
+
+/* ==========================================
+   TALENTLENS - SHARED CANDIDATE PAGE HEADINGS
+   ========================================== */
+
+/* Consistent page heading typography */
+
+.profile-header h1,
+.jobs-hero h1,
+.resume-page-hero h1,
+.matching-header h1,
+.applications-hero h1,
+.settings-page-heading h1 {
+  margin: 10px 0 7px;
+  color: #172b49;
+  font-size: 30px;
+  font-weight: 750;
+  line-height: 1.2;
+  letter-spacing: -0.8px;
+}
+
+/* Consistent small uppercase heading labels */
+
+.profile-eyebrow,
+.jobs-eyebrow,
+.resume-eyebrow,
+.matching-eyebrow,
+.applications-hero .applications-eyebrow,
+.settings-eyebrow {
+  color: #285bb8;
+  font-size: 10px;
+  font-weight: 750;
+  letter-spacing: 1.4px;
+  line-height: 1.5;
+  text-transform: uppercase;
+}
+
+/* Consistent page descriptions */
+
+.profile-header p,
+.jobs-hero p,
+.resume-page-hero p,
+.matching-header p,
+.applications-hero p,
+.settings-page-heading p {
+  margin: 0;
+  color: #718096;
+  font-size: 13px;
+  line-height: 1.7;
+}
+
+/* Consistent spacing between heading and page content */
+
+.profile-header,
+.matching-header {
+  margin-top: 0;
+  margin-bottom: 24px;
+}
+
+.jobs-hero {
+  padding-top: 8px;
+  padding-bottom: 22px;
+}
+
+.resume-page-hero {
+  margin-bottom: 24px;
+}
+
+.applications-hero {
+  margin-bottom: 24px;
+}
+
+.settings-page-heading {
+  margin-bottom: 24px;
+}
+
+/* Remove extra nested top padding inside shared workspace */
+
+.profile-page,
+.matching-page {
+  padding-top: 0;
+}
+
+.resume-page-content {
+  padding-top: 8px;
+}
+
+.applications-content {
+  padding-top: 8px;
+}
+
+.settings-content {
+  padding-top: 8px;
+}
+
+/* Responsive heading size */
+
+@media (max-width: 600px) {
+  .profile-header h1,
+  .jobs-hero h1,
+  .resume-page-hero h1,
+  .matching-header h1,
+  .applications-hero h1,
+  .settings-page-heading h1 {
+    font-size: 24px;
+  }
+}
+
+/* =========================================
+   TALENTLENS - UNIFIED CANDIDATE PAGE ALIGNMENT
+   ========================================= */
+
+/* All candidate pages use the same content start,
+   width and horizontal alignment. */
+
+.jobs-page-content,
+.resume-page-content,
+.matching-container,
+.applications-content,
+.profile-container,
+.settings-content {
+  width: 100% !important;
+  max-width: none !important;
+  margin-left: 0 !important;
+  margin-right: 0 !important;
+  box-sizing: border-box;
+}
+
+/* Remove individual page horizontal padding */
+
+.profile-page,
+.matching-page {
+  padding: 0 !important;
+}
+
+/* Consistent top spacing */
+
+.jobs-hero {
+  padding-top: 8px !important;
+}
+
+.resume-page-content,
+.applications-content,
+.settings-content {
+  padding-top: 8px !important;
+}
+
+/* Prevent mobile rules from shifting content */
+
+@media (max-width: 750px) {
+  .jobs-page-content,
+  .resume-page-content,
+  .matching-container,
+  .applications-content,
+  .profile-container,
+  .settings-content {
+    width: 100% !important;
+    margin-left: 0 !important;
+    margin-right: 0 !important;
+  }
+
+  .profile-page,
+  .matching-page {
+    padding: 0 !important;
+  }
+}
+/* My Resume - Match other candidate pages */
+
+.resume-page-content {
+  width: 100% !important;
+  max-width: none !important;
+  margin: 0 !important;
+  padding: 8px 0 25px !important;
+}
+
+.resume-page-hero {
+  padding: 0 !important;
+  margin-bottom: 24px !important;
 }

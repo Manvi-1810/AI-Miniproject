@@ -59,6 +59,29 @@ def allowed_file(filename):
     )
 
 
+# Resolve a stored resume path safely.
+# This prevents deleting files outside the resume upload folder.
+def get_safe_resume_path(stored_path):
+    if not stored_path:
+        return None
+
+    stored = Path(stored_path)
+
+    if stored.is_absolute():
+        resolved_path = stored.resolve()
+    else:
+        resolved_path = (BASE_DIR / stored).resolve()
+
+    allowed_folder = UPLOAD_FOLDER.resolve()
+
+    try:
+        resolved_path.relative_to(allowed_folder)
+    except ValueError:
+        raise ValueError("Invalid resume storage path.")
+
+    return resolved_path
+
+
 # Extract text from PDF
 def extract_pdf_text(file_path):
     text_parts = []
@@ -166,6 +189,91 @@ def get_my_resumes():
             for resume in resumes
         ]
     }), 200
+
+
+# =====================================================
+# DELETE: Delete a resume belonging to the logged-in user
+# Endpoint: DELETE /api/resumes/<resume_id>
+# =====================================================
+
+@resumes_bp.delete("/<int:resume_id>")
+@jwt_required()
+def delete_resume(resume_id):
+
+    try:
+        user_id = get_jwt_identity()
+
+        user = db.session.get(User, user_id)
+
+        if not user:
+            return jsonify({
+                "status": "error",
+                "message": "User not found"
+            }), 404
+
+        if user.role != "candidate":
+            return jsonify({
+                "status": "error",
+                "message": "Only candidates can delete resumes"
+            }), 403
+
+        # Find only a resume belonging to this candidate
+        resume = Resume.query.filter_by(
+            id=resume_id,
+            candidate_id=user.id
+        ).first()
+
+        if not resume:
+            return jsonify({
+                "status": "error",
+                "message": "Resume not found or you do not have permission to delete it."
+            }), 404
+
+        # Resolve and validate the file location
+        file_path = get_safe_resume_path(resume.file_path)
+
+        # Delete the database record first
+        db.session.delete(resume)
+        db.session.commit()
+
+        # Delete the physical file after the database commit
+        file_deleted = False
+
+        if file_path and file_path.exists() and file_path.is_file():
+            try:
+                file_path.unlink()
+                file_deleted = True
+            except OSError as file_error:
+                # The database record is already deleted.
+                # Log the file cleanup failure for maintenance.
+                print("Resume file deletion error:", file_error)
+
+        return jsonify({
+            "status": "success",
+            "message": "Resume deleted successfully.",
+            "resume_id": resume_id,
+            "file_deleted": file_deleted
+        }), 200
+
+    except ValueError as error:
+
+        db.session.rollback()
+
+        return jsonify({
+            "status": "error",
+            "message": str(error)
+        }), 400
+
+    except Exception as error:
+
+        db.session.rollback()
+
+        print("Resume deletion error:", str(error))
+
+        return jsonify({
+            "status": "error",
+            "message": "An error occurred while deleting the resume."
+        }), 500
 
 
 # =====================================================
