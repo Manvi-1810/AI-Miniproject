@@ -1,3 +1,4 @@
+
 import { useState } from "react";
 import {
   Eye,
@@ -65,8 +66,10 @@ export default function LoginPage() {
       if (user.role === "candidate") {
         navigate("/candidate/dashboard", { replace: true });
       } else if (user.role === "recruiter") {
-        navigate("/", { replace: true });
+        navigate("/recruiter/dashboard", { replace: true });
       } else {
+        localStorage.removeItem("access_token");
+        localStorage.removeItem("user");
         setMessage("Your account role is not recognized.");
       }
 
@@ -75,6 +78,7 @@ export default function LoginPage() {
 
       setMessage(
         error.response?.data?.message ||
+        error.message ||
         "Login failed. Please check your email and password."
       );
     } finally {

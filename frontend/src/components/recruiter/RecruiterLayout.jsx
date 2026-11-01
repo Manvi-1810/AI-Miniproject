@@ -23,6 +23,7 @@ export default function RecruiterLayout() {
   const navigate = useNavigate();
 
   const [sidebarOpen, setSidebarOpen] = useState(false);
+
   const [notifications, setNotifications] = useState([]);
   const [unreadCount, setUnreadCount] = useState(0);
   const [notificationOpen, setNotificationOpen] = useState(false);
@@ -71,6 +72,7 @@ export default function RecruiterLayout() {
     },
   ];
 
+  // Fetch recruiter notifications
   async function fetchNotifications() {
     try {
       setNotificationLoading(true);
@@ -80,18 +82,21 @@ export default function RecruiterLayout() {
       setNotifications(response.data.notifications || []);
       setUnreadCount(response.data.unread_count || 0);
     } catch (err) {
-      console.error("Unable to fetch recruiter notifications:", err);
+      console.error("Unable to fetch notifications:", err);
     } finally {
       setNotificationLoading(false);
     }
   }
 
+  // Load notifications when layout opens
   useEffect(() => {
     fetchNotifications();
   }, []);
 
+  // Open or close notification dropdown
   function toggleNotifications() {
     const willOpen = !notificationOpen;
+
     setNotificationOpen(willOpen);
 
     if (willOpen) {
@@ -99,6 +104,7 @@ export default function RecruiterLayout() {
     }
   }
 
+  // Mark one notification as read
   async function handleNotificationClick(notification) {
     try {
       if (!notification.is_read) {
@@ -127,6 +133,7 @@ export default function RecruiterLayout() {
     }
   }
 
+  // Mark all notifications as read
   async function handleMarkAllRead() {
     try {
       await api.patch("/notifications/read-all");
@@ -140,10 +147,11 @@ export default function RecruiterLayout() {
 
       setUnreadCount(0);
     } catch (err) {
-      console.error("Unable to mark notifications as read:", err);
+      console.error("Unable to mark all notifications as read:", err);
     }
   }
 
+  // Format notification date
   function formatNotificationDate(dateValue) {
     if (!dateValue) return "";
 
@@ -160,6 +168,7 @@ export default function RecruiterLayout() {
     });
   }
 
+  // Sign out
   function handleLogout() {
     localStorage.removeItem("access_token");
     localStorage.removeItem("user");
@@ -168,6 +177,8 @@ export default function RecruiterLayout() {
 
   return (
     <div className="candidate-layout">
+
+      {/* Mobile sidebar overlay */}
       {sidebarOpen && (
         <button
           className="sidebar-overlay"
@@ -176,6 +187,7 @@ export default function RecruiterLayout() {
         />
       )}
 
+      {/* Sidebar */}
       <aside
         className={`candidate-sidebar ${
           sidebarOpen ? "sidebar-open" : ""
@@ -249,7 +261,10 @@ export default function RecruiterLayout() {
         </div>
       </aside>
 
+      {/* Main content */}
       <main className="candidate-main">
+
+        {/* Header */}
         <header className="dashboard-topbar">
           <button
             className="mobile-menu"
@@ -265,7 +280,12 @@ export default function RecruiterLayout() {
           </div>
 
           <div className="topbar-actions">
-            <div className="notification-wrapper">
+
+            {/* Notifications */}
+            <div
+              className="notification-wrapper"
+              style={{ position: "relative" }}
+            >
               <button
                 className="notification-button"
                 aria-label="Notifications"
@@ -306,8 +326,8 @@ export default function RecruiterLayout() {
                       display: "flex",
                       justifyContent: "space-between",
                       alignItems: "center",
-                      gap: "8px",
                       borderBottom: "1px solid #e5e7eb",
+                      gap: "8px",
                     }}
                   >
                     <div>
@@ -365,7 +385,10 @@ export default function RecruiterLayout() {
                           color: "#6b7280",
                         }}
                       >
-                        <RefreshCw size={22} />
+                        <RefreshCw
+                          size={22}
+                          className="animate-spin"
+                        />
                         <p>Loading notifications...</p>
                       </div>
                     ) : notifications.length === 0 ? (
@@ -381,7 +404,12 @@ export default function RecruiterLayout() {
                           style={{ margin: "0 auto 10px" }}
                         />
 
-                        <p style={{ fontWeight: 600 }}>
+                        <p
+                          style={{
+                            fontWeight: 600,
+                            marginBottom: "5px",
+                          }}
+                        >
                           No notifications yet
                         </p>
 
@@ -409,9 +437,35 @@ export default function RecruiterLayout() {
                             cursor: "pointer",
                           }}
                         >
-                          <strong style={{ fontSize: "13px" }}>
-                            {notification.title}
-                          </strong>
+                          <div
+                            style={{
+                              display: "flex",
+                              justifyContent: "space-between",
+                              gap: "8px",
+                            }}
+                          >
+                            <strong
+                              style={{
+                                fontSize: "13px",
+                                color: "#1f2937",
+                              }}
+                            >
+                              {notification.title}
+                            </strong>
+
+                            {!notification.is_read && (
+                              <span
+                                style={{
+                                  width: "8px",
+                                  height: "8px",
+                                  minWidth: "8px",
+                                  borderRadius: "50%",
+                                  background: "#2563eb",
+                                  marginTop: "4px",
+                                }}
+                              />
+                            )}
+                          </div>
 
                           <p
                             style={{
@@ -474,22 +528,26 @@ export default function RecruiterLayout() {
               )}
             </div>
 
+            {/* Recruiter information */}
             <div className="topbar-user">
               <div className="user-avatar">
                 {recruiterName.charAt(0).toUpperCase()}
               </div>
 
               <div>
-                <strong>{recruiterName}</strong>
+                <strong>{user.email || recruiterName}</strong>
                 <small>Recruiter</small>
               </div>
             </div>
+
           </div>
         </header>
 
+        {/* Page content */}
         <div className="dashboard-content">
           <Outlet />
         </div>
+
       </main>
     </div>
   );

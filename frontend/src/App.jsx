@@ -1,3 +1,4 @@
+
 import { Navigate, Route, Routes } from "react-router-dom";
 
 import LandingPage from "./pages/public/LandingPage";
@@ -13,11 +14,20 @@ import MyProfilePage from "./pages/candidate/MyProfilePage";
 import AISkillMatchingPage from "./pages/candidate/AISkillMatchingPage";
 import CandidateSettingsPage from "./pages/candidate/CandidateSettingsPage";
 
-// Shared layouts
+// Recruiter pages
+import ManageJobsPage from "./pages/recruiter/ManageJobsPage";
+import ApplicantsPage from "./pages/recruiter/ApplicantsPage";
+import ScreeningResultsPage from "./pages/recruiter/ScreeningResultsPage";
+import AIInterviewResultsPage from "./pages/recruiter/AIInterviewResultsPage";
+import RecruiterProfilePage from "./pages/recruiter/RecruiterProfilePage";
+import RecruiterSettingsPage from "./pages/recruiter/RecruiterSettingsPage";
+import RecruiterDashboardPage from "./pages/recruiter/RecruiterDashboardPage";
+
+// Layouts
 import CandidateLayout from "./components/candidate/CandidateLayout";
 import RecruiterLayout from "./components/recruiter/RecruiterLayout";
 
-// Protect candidate routes
+// Candidate route protection
 function CandidateRoute({ children }) {
   const token = localStorage.getItem("access_token");
 
@@ -40,7 +50,7 @@ function CandidateRoute({ children }) {
   return children;
 }
 
-// Protect recruiter routes
+// Recruiter route protection
 function RecruiterRoute({ children }) {
   const token = localStorage.getItem("access_token");
 
@@ -63,34 +73,20 @@ function RecruiterRoute({ children }) {
   return children;
 }
 
-// Temporary recruiter dashboard until we build its full page
-function RecruiterDashboardPage() {
+// Recruiter dashboard placeholder
+
+// Temporary pages until we build their complete functionality
+function RecruiterPlaceholder({ title }) {
   return (
     <section>
-      <span
-        style={{
-          color: "#285bb8",
-          fontSize: "11px",
-          fontWeight: 750,
-          letterSpacing: "1.4px",
-        }}
-      >
+      <span style={{ color: "#285bb8", fontSize: 11, fontWeight: 750 }}>
         RECRUITER WORKSPACE
       </span>
-
-      <h1
-        style={{
-          color: "#172b49",
-          fontSize: "30px",
-          margin: "10px 0 7px",
-        }}
-      >
-        Dashboard
+      <h1 style={{ color: "#172b49", fontSize: 26 }}>
+        {title}
       </h1>
-
-      <p style={{ color: "#718096", fontSize: "13px" }}>
-        Manage your recruitment activities and monitor AI-powered
-        candidate screening.
+      <p style={{ color: "#718096", fontSize: 13 }}>
+        This page will be implemented next.
       </p>
     </section>
   );
@@ -99,7 +95,7 @@ function RecruiterDashboardPage() {
 export default function App() {
   return (
     <Routes>
-      {/* Public pages */}
+      {/* Public routes */}
       <Route path="/" element={<LandingPage />} />
       <Route path="/login" element={<LoginPage />} />
       <Route path="/register" element={<RegisterPage />} />
@@ -133,9 +129,37 @@ export default function App() {
         }
       >
         <Route
-          path="dashboard"
-          element={<RecruiterDashboardPage />}
+  path="dashboard"
+  element={<RecruiterDashboardPage />}
+/>
+        <Route
+          path="jobs"
+          element={<ManageJobsPage />}
         />
+
+        <Route
+          path="applicants"
+          element={<ApplicantsPage />}
+        />
+
+        <Route
+  path="screening"
+  element={<ScreeningResultsPage />}
+/>
+
+        <Route
+  path="interviews"
+  element={<AIInterviewResultsPage />}
+/>
+
+        <Route
+  path="profile"
+  element={<RecruiterProfilePage />}
+/>
+        <Route
+  path="settings"
+  element={<RecruiterSettingsPage />}
+/>
 
         <Route index element={<Navigate to="dashboard" replace />} />
       </Route>

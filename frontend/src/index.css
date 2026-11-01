@@ -5850,16 +5850,14 @@ p {
     padding: 0 !important;
   }
 }
-/* My Resume - Match other candidate pages */
 
-.resume-page-content {
-  width: 100% !important;
-  max-width: none !important;
-  margin: 0 !important;
-  padding: 8px 0 25px !important;
+/* Homepage hero spacing adjustment */
+.hero-section {
+  padding: 35px 0 65px;
 }
 
-.resume-page-hero {
-  padding: 0 !important;
-  margin-bottom: 24px !important;
+@media (max-width: 768px) {
+  .hero-section {
+    padding: 30px 0 45px;
+  }
 }
